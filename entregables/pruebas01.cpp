@@ -85,6 +85,9 @@ void probarCifra(const int n, const int b) {
 // en las bases de numeración 2 y 10
 void probarCifra() {
     probarCifra(1001, 10);
+    probarCifra(1234321, 10);
+    probarCifra(1024, 2);
+    probarCifra(109901, 10);
 }
 
 
