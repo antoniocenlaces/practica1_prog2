@@ -13,7 +13,7 @@
 using namespace std;
 
 
-// Pre:  <cifra> es el número de cifras de <n> cuando se escribe en base <b>
+// Pre:  <cifras> es el número de cifras de <n> cuando se escribe en base <b>
 //       y <b> está comprendido entre 2 y 10
 // Post: Informa si el valor devuelto al ejecutar numCifras(n, b) es igual
 //       a <cifras> o no lo es
@@ -122,7 +122,7 @@ void probarSumaCifras() {
 int main() {
     // Pruebas del comportamiento de numCifras(n,b)
     probarNumCifras ();
-    // Pruebas del comportamiento de cifra(n,i,)
+    // Pruebas del comportamiento de cifra(n,i,b)
     // Pruebas del comportamiento de cifraMayor(n,b)
     // Pruebas del comportamiento de cifraMasSignificativa(n,b)
     // Pruebas del comportamiento de sumaCifras(n,b)

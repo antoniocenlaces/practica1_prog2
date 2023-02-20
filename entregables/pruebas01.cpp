@@ -8,12 +8,13 @@
 //*****************************************************************
 
 #include <iostream>
+#include <cmath>
 #include "calculos.hpp"
 
 using namespace std;
 
 
-// Pre:  <cifra> es el número de cifras de <n> cuando se escribe en base <b>
+// Pre:  <cifras> es el número de cifras de <n> cuando se escribe en base <b>
 //       y <b> está comprendido entre 2 y 10
 // Post: Informa si el valor devuelto al ejecutar numCifras(n, b) es igual
 //       a <cifras> o no lo es
@@ -66,12 +67,24 @@ void probarNumCifras() {
 // Post: Informa si los valores devueltos al ejecutar cifra(n, i, b) corresponden
 //       o no a la i-ésima cifra de <n>, cuando este número se escribe en base <b>
 void probarCifra(const int n, const int b) {
+    int numDigitos = numCifras(n, b);
+    int reconstruido = 0;
+    for (unsigned i = numDigitos; i >= 1; i--) {
+        reconstruido = reconstruido * b + cifra(n, i, b);
+    }
+     if (reconstruido == n) {
+        cout << "Ok. probarCifra(" << n << "," << b << ") reconstruido= " << reconstruido << endl;
+    } else {
+        cout << "Mal. probarCifra(" << n << "," << b << ") reconstruido= " << reconstruido
+             << "  pero debiera ser " << n << endl;
+    }
 }
 
 
 // Prueba el comportamiento de cifra(n,i,b) para diferentes números naturales
 // en las bases de numeración 2 y 10
 void probarCifra() {
+    probarCifra(1001, 10);
 }
 
 
@@ -122,7 +135,16 @@ void probarSumaCifras() {
 int main() {
     // Pruebas del comportamiento de numCifras(n,b)
     probarNumCifras ();
-    // Pruebas del comportamiento de cifra(n,i,)
+    probarCifra();
+    // cout << "n para realizar las pruebas: ";
+    // int n;
+    // cin >> n;
+    // cout << "numCifras: " << numCifras(n) << endl;
+    // cout << "La cifra 2 de n " << cifra(n,2) << endl;
+    // cout << "La cifra mayor de n es: " << cifraMayor(n) << endl;
+    // cout << "La cifra más significativa de n: " << cifraMasSignificativa(n) << endl;
+    // cout << "La suma de cifras: " << sumaCifras(n) << endl;
+    // Pruebas del comportamiento de cifra(n,i,b)
     // Pruebas del comportamiento de cifraMayor(n,b)
     // Pruebas del comportamiento de cifraMasSignificativa(n,b)
     // Pruebas del comportamiento de sumaCifras(n,b)
