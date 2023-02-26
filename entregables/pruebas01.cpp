@@ -67,7 +67,9 @@ void probarNumCifras() {
 // Post: Informa si los valores devueltos al ejecutar cifra(n, i, b) corresponden
 //       o no a la i-ésima cifra de <n>, cuando este número se escribe en base <b>
 void probarCifra(const int n, const int b) {
+    // Almaceno el número de cifras que tiene n
     int numDigitos = numCifras(n, b);
+    // reconstruido será el número calculado llamando a la función cifra(n, i, b)
     int reconstruido = 0;
     for (unsigned i = numDigitos; i >= 1; i--) {
         reconstruido = reconstruido * b + cifra(n, i, b);
@@ -84,10 +86,12 @@ void probarCifra(const int n, const int b) {
 // Prueba el comportamiento de cifra(n,i,b) para diferentes números naturales
 // en las bases de numeración 2 y 10
 void probarCifra() {
+    probarCifra(0, 10);
     probarCifra(1001, 10);
     probarCifra(1234321, 10);
     probarCifra(1024, 2);
     probarCifra(109901, 10);
+    probarCifra(9000091, 2);
 }
 
 
@@ -96,12 +100,44 @@ void probarCifra() {
 // Post: Informa si el valor devuelto al ejecutar cifraMayor(n, b) coincide con el
 //       de <laMyor>, cuando <n> se escribe en base <b>
 void probarCifraMayor(const int n, const int b, const int laMayor) {
+    int m = cifraMayor(n, b);
+    if (m == laMayor) {
+        cout << "Ok. cifraMayor(" << n << "," << b << ") = " << m << endl;
+    } else {
+        cout << "Mal. cifraMayor(" << n << "," << b << ") = " << m << "  pero debiera ser "
+             << laMayor << endl;
+    }
 }
 
 
 // Prueba el comportamiento de cifraMayor(n,b) para diferentes números naturales
 // en las bases de numeración 2, 8 y 10
 void probarCifraMayor() {
+    // Pruebas en base 10
+    probarCifraMayor(0, 10, 0);
+    probarCifraMayor(1, 10, 1);
+    probarCifraMayor(9, 10, 9);
+    probarCifraMayor(10, 10, 1);
+    probarCifraMayor(11, 10, 1);
+    probarCifraMayor(14, 10, 4);
+    int n = 100;
+    while (n <= 1000000) {
+        probarCifraMayor(n - 1, 10, 9);
+        probarCifraMayor(n, 10, 1);
+        probarCifraMayor(n + 1, 10, 1);
+        probarCifraMayor(n - 1 + (n / 2), 10, 9);
+        probarCifraMayor(n + (n / 2), 10, 5);
+        n = 10 * n;
+    }
+    // Pruebas en base 2
+    probarCifraMayor(0, 2, 0);
+    probarCifraMayor(1, 2, 1);
+    probarCifraMayor(254, 2, 1);
+    // Pruebas en base 8
+    probarCifraMayor(0, 8, 0);
+    probarCifraMayor(7, 8, 7);
+    probarCifraMayor(8, 8, 1);
+    probarCifraMayor(16, 8, 2);
 }
 
 
@@ -139,6 +175,7 @@ int main() {
     // Pruebas del comportamiento de numCifras(n,b)
     probarNumCifras ();
     probarCifra();
+    probarCifraMayor();
     // cout << "n para realizar las pruebas: ";
     // int n;
     // cin >> n;
