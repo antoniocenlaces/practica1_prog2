@@ -86,12 +86,30 @@ void probarCifra(const int n, const int b) {
 // Prueba el comportamiento de cifra(n,i,b) para diferentes números naturales
 // en las bases de numeración 2 y 10
 void probarCifra() {
-    probarCifra(0, 10);
-    probarCifra(1001, 10);
-    probarCifra(1234321, 10);
-    probarCifra(1024, 2);
-    probarCifra(109901, 10);
-    probarCifra(9000091, 2);
+    // Pruebas de cifra(n,i,b) en base 10
+    int b = 10;
+    
+    int i = 1;
+    while(i >= 0 && i <= 2147483647) {
+        probarCifra(i - 1, b);
+        probarCifra(i, b);
+        probarCifra(i + 1, b);
+        i = i * 3;
+    }
+    b = 2;
+    i = 1;
+    while(i >= 0 && i <= 2147483647) {
+        probarCifra(i - 1, b);
+        probarCifra(i, b);
+        probarCifra(i + 1, b);
+        i = i * 3;
+    }
+    
+    // probarCifra(1001, 10);
+    // probarCifra(1234321, 10);
+    // probarCifra(1024, 2);
+    // probarCifra(109901, 10);
+    // probarCifra(9000091, 2);
 }
 
 
@@ -114,19 +132,20 @@ void probarCifraMayor(const int n, const int b, const int laMayor) {
 // en las bases de numeración 2, 8 y 10
 void probarCifraMayor() {
     // Pruebas en base 10
-    probarCifraMayor(0, 10, 0);
-    probarCifraMayor(1, 10, 1);
-    probarCifraMayor(9, 10, 9);
-    probarCifraMayor(10, 10, 1);
-    probarCifraMayor(11, 10, 1);
-    probarCifraMayor(14, 10, 4);
+    int b = 10;
+    probarCifraMayor(0, b, 0);
+    probarCifraMayor(1, b, 1);
+    probarCifraMayor(9, b, 9);
+    probarCifraMayor(10, b, 1);
+    probarCifraMayor(11, b, 1);
+    probarCifraMayor(14, b, 4);
     int n = 100;
     while (n <= 1000000) {
-        probarCifraMayor(n - 1, 10, 9);
-        probarCifraMayor(n, 10, 1);
-        probarCifraMayor(n + 1, 10, 1);
-        probarCifraMayor(n - 1 + (n / 2), 10, 9);
-        probarCifraMayor(n + (n / 2), 10, 5);
+        probarCifraMayor(n - 1, b, 9);
+        probarCifraMayor(n, b, 1);
+        probarCifraMayor(n + 1, b, 1);
+        probarCifraMayor(n - 1 + (n / 2), b, 9);
+        probarCifraMayor(n + (n / 2), b, 5);
         n = 10 * n;
     }
     // Pruebas en base 2
@@ -146,26 +165,111 @@ void probarCifraMayor() {
 // Post: Informa si el valor devuelto al ejecutar cifraMasSignificativa(n, b) coincide
 //       con el de <laMasSignificativa>, cuando <n> se escribe en base <b>
 void probarCifraMasSignificativa(const int n, const int b, const int laMasSignificativa) {
+    int m = cifraMasSignificativa(n, b);
+    if (m == laMasSignificativa) {
+        cout << "Ok. cifraMasSignificativa(" << n << "," << b << ") = " << m << endl;
+    } else {
+        cout << "Mal. cifraMasSignificativa(" << n << "," << b << ") = " << m << "  pero debiera ser "
+             << laMasSignificativa << endl;
+    }
 }
-
+// Función auxiliar para obtener la cifra más significativa de n
+// en base b conociendo el número de cifras de n
+int masSig(const int n, const int b) {
+    int numDigitos = numCifras(n, b);
+    return n / int(pow(b, numDigitos - 1));
+}
 
 // Prueba el comportamiento de cifraMasSignificativa(n,b) para diferentes números naturales
 // en las bases de numeración 2, 8 y 10
 void probarCifraMasSignificativa() {
+   
+    // Pruebas b=10
+    int b = 10;
+    int i = 1;
+    while(i > 0 && i <= 2147483647) {
+        probarCifraMasSignificativa(i - 1, b, masSig(i - 1, b));
+        probarCifraMasSignificativa(i, b, masSig(i, b));
+        probarCifraMasSignificativa(i + 1, b, masSig(i + 1, b));
+        i = i * 5;
+    }
+    // Pruebas b=2
+    b = 2;
+    i = 1;
+    while(i >= 0 && i <= 2147483647) {
+        probarCifraMasSignificativa(i - 1, b, masSig(i - 1, b));
+        probarCifraMasSignificativa(i, b, masSig(i, b));
+        probarCifraMasSignificativa(i + 1, b, masSig(i + 1, b));
+        i = i * 5;
+    }
+    // Pruebas b=8
+    b = 8;
+    i = 1;
+    while(i >= 0 && i <= 2147483647) {
+        probarCifraMasSignificativa(i - 1, b, masSig(i - 1, b));
+        probarCifraMasSignificativa(i, b, masSig(i, b));
+        probarCifraMasSignificativa(i + 1, b, masSig(i + 1, b));
+        i = i * 5;
+    }
 }
 
-
+// Función auxiliar para sumar las cifras de n en base b
+// conociendo el número de cifras de n
+int sumCif(const int n, const int b) {
+    int numDigitos = numCifras(n, b);
+    int s = 0;
+    int m = n;
+    for (unsigned i = 0; i < numDigitos; i++){
+        s += m % b;
+        m = m / b;
+    }
+    return s;
+}
 // Pre:  <n> es el número natural y <b> está comprendido entre 2 y 10 y <laSuma> es
 //       el valor de las cifras de <n> cuando se escribe en base <b>
 // Post: Informa si el valor devuelto al ejecutar sumaCifras(n, b) coincide
 //       con el de <laSuma>, cuando <n> se escribe en base <b>
 void probarSumaCifras(const int n, const int b, const int laSuma) {
+    int m = sumaCifras(n, b);
+    if (m == laSuma) {
+        cout << "Ok. probarSumaCifras(" << n << "," << b << ") = " << m << endl;
+    } else {
+        cout << "Mal. probarSumaCifras(" << n << "," << b << ") = " << m << "  pero debiera ser "
+             << laSuma << endl;
+    }
 }
 
 
 // Prueba el comportamiento de probarSumaCifras(n,b) para diferentes números naturales
 // en las bases de numeración 2, 8 y 10
 void probarSumaCifras() {
+    // Pruebas b=10
+    int b = 10;
+    int i = 1;
+    while(i > 0 && i <= 2147483647) {
+        probarSumaCifras(i - 1, b, sumCif(i - 1, b));
+        probarSumaCifras(i, b, sumCif(i, b));
+        probarSumaCifras(i + 1, b, sumCif(i + 1, b));
+        i = i * 5;
+    }
+    // Pruebas b=2
+    b = 2;
+    i = 1;
+    while(i > 0 && i <= 2147483647) {
+        probarSumaCifras(i - 1, b, sumCif(i - 1, b));
+        probarSumaCifras(i, b, sumCif(i, b));
+        probarSumaCifras(i + 1, b, sumCif(i + 1, b));
+        i = i * 5;
+    }
+    // Pruebas b=8
+    b = 8;
+    i = 1;
+    while(i > 0 && i <= 2147483647) {
+        probarSumaCifras(i - 1, b, sumCif(i - 1, b));
+        probarSumaCifras(i, b, sumCif(i, b));
+        probarSumaCifras(i + 1, b, sumCif(i + 1, b));
+        i = i * 5;
+    }
 }
 
 
@@ -176,6 +280,8 @@ int main() {
     probarNumCifras ();
     probarCifra();
     probarCifraMayor();
+    probarCifraMasSignificativa();
+    probarSumaCifras();
     // cout << "n para realizar las pruebas: ";
     // int n;
     // cin >> n;
